@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NextGPA+</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">
+            <img src="Logo.png" alt="NextGPA Logo" class="app-logo">
+            <div class="brand-text">
+                <h1>NextGPA+</h1>
+                <p style="font-size:15px; font-family: 'Poppins', sans-serif;font-weight: bold;">Predict -> Plan ->
+                    Progress</p>
+            </div>
+        </div>
+
+        <span id="userGreeting" class="nav-center-greeting"></span>
+        <button class="menu-toggle" id="mobile-menu" aria-label="Toggle navigation">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+
+        <div class="nav-actions">
+            <button id="logoutBtn" class="nav-btn" style="margin-right: 10px; display: none;">Logout</button>
+            <button id="darkModeToggle" class="nav-btn">🌙 Dark Mode</button>
+        </div>
+    </nav>
+
+    <div class="container">
+
+
+        <div class="tabs">
+            <button class="tab-button active" onclick="switchTab('calculator')">GPA Calculator</button>
+            <button class="tab-button" onclick="switchTab('visualization')">Visualization</button>
+            <button class="tab-button" onclick="switchTab('progress')">Progress Checker</button>
+            <button class="tab-button" onclick="switchTab('predictor')">Predictor</button>
+        </div>
+
+        <!-- GPA Calculator Tab -->
+        <div id="calculator" class="tab-content active">
+            <div class="summary-section">
+                <div class="summary-grid">
+                    <div class="summary-card">
+                        <div class="summary-label">Overall GPA</div>
+                        <div class="summary-value" id="overallGPA">0.00</div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="summary-label">Total Courses</div>
+                        <div class="summary-value" id="totalCourses">0</div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="summary-label">Total Credits</div>
+                        <div class="summary-value" id="totalCredits">0</div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="summary-label">Avg Credits/Semester</div>
+                        <div class="summary-value" id="avgCredits">0</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="semester-container" id="semesterContainer"></div>
+
+            <button class="add-btn" onclick="clearAllData()"
+                style="width: 200px; background: #ff6b6b; margin-top: 20px;">Clear All Data</button>
+        </div>
+
+        <!-- Visualization Tab -->
+        <div id="visualization" class="tab-content">
+            <div class="summary-section">
+                <h2 style="margin-bottom: 20px; color: #333;">GPA Progress Graph</h2>
+                <div class="chart-container" style="position: relative; height:40vh; width:100%">
+                    <canvas id="gpaChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Progress Checker Tab -->
+        <div id="progress" class="tab-content">
+            <div class="progress-checker">
+                <h2 style="margin-bottom: 20px; color: #333;">What Grade Do You Need?</h2>
+                <div class="checker-form">
+                    <div class="input-group">
+                        <label for="currentGPA">Current GPA</label>
+                        <input type="number" id="currentGPA" min="0" max="4" step="0.01" placeholder="e.g., 3.5">
+                    </div>
+                    <div class="input-group">
+                        <label for="targetGPA">Target GPA</label>
+                        <input type="number" id="targetGPA" min="0" max="4" step="0.01" placeholder="e.g., 3.8">
+                    </div>
+                    <div class="input-group">
+                        <label for="completedCredits">Completed Credits</label>
+                        <input type="number" id="completedCredits" min="0" step="1" placeholder="e.g., 45">
+                    </div>
+                    <div class="input-group">
+                        <label for="remainingCredits">Remaining Credits</label>
+                        <input type="number" id="remainingCredits" min="0" step="1" placeholder="e.g., 15">
+                    </div>
+                </div>
+
+                <button class="add-btn" onclick="calculateRequiredGrade()">Calculate Required Grade</button>
+
+                <div id="checkerResult"></div>
+            </div>
+        </div>
+
+        <!-- Predictor Tab -->
+        <div id="predictor" class="tab-content">
+            <div class="progress-checker">
+                <h2 style="margin-bottom: 20px; color: #333;">Future GPA Predictor</h2>
+
+                <div class="summary-section" id="trendPredictionArea">
+                    <!-- Trend prediction will be injected here -->
+                </div>
+
+                <h3 style="margin-top: 30px; margin-bottom: 15px; color: #333;">What-if Calculator</h3>
+                <p style="margin-bottom: 15px; color: #666;">See how your CGPA changes if you get a certain GPA in
+                    future semesters.</p>
+
+                <div class="checker-form">
+                    <div class="input-group">
+                        <label for="futureCredits">Future Credits (Total)</label>
+                        <input type="number" id="futureCredits" min="0" step="1" placeholder="e.g., 30">
+                    </div>
+                    <div class="input-group">
+                        <label for="expectedGPA">Expected GPA (Average)</label>
+                        <input type="number" id="expectedGPA" min="0" max="4" step="0.01" placeholder="e.g., 3.8">
+                    </div>
+                </div>
+                <button class="add-btn" onclick="calculatePrediction()">Predict Final CGPA</button>
+                <div id="predictionResult" class="checker-result" style="display:none; margin-top: 20px;"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Link external JS -->
+    <script src="script.js"></script>
+</body>
+
+</html>

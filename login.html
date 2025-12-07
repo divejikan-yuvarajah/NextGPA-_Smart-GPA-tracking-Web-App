@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - NextGPA</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body class="auth-page">
+
+   
+    <div class="auth-logo">
+        <img src="Logo.png" alt="NextGPA Logo" style="width: 100px; height: 100px;">
+        <span style="font-size: 30px; color: white;">NextGPA+</span>
+    </div>
+
+    
+    <div class="auth-actions">
+        <button id="authDarkModeToggle" class="icon-btn"><i class="fas fa-moon"></i></button>
+    </div>
+
+    <div class="auth-container">
+        <div class="auth-card">
+            <div class="auth-header">
+                <h2>Welcome Back</h2>
+                <p>Track your success and continue your academic journey.</p>
+            </div>
+
+            <form action="#" class="auth-form">
+                <div class="input-field">
+                    <label for="login-email">Username or Email</label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-user-circle input-icon"></i>
+                        <input type="text" id="login-email" placeholder="student@gamil.com" required>
+                    </div>
+                </div>
+
+                <div class="input-field">
+                    <div class="label-row">
+                        <label for="login-password">Password</label>
+                        <a href="#" class="forgot-link">Forgot Password?</a>
+                    </div>
+                    <div class="input-wrapper">
+                        <i class="fas fa-lock input-icon"></i>
+                        <input type="password" id="login-password" placeholder="••••••••" required>
+                        <i class="fas fa-eye show-pass-toggle"></i>
+                    </div>
+                </div>
+
+                <button type="submit" class="auth-btn">Login</button>
+            </form>
+
+            <div class="divider">
+                <span>Or continue with</span>
+            </div>
+
+            <div class="social-login">
+                <button class="social-btn">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" alt="Google">
+                    Google
+                </button>
+                <button class="social-btn">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg" alt="Microsoft">
+                    Microsoft
+                </button>
+            </div>
+
+            <div class="auth-footer">
+                <p>Don't have an account? <a href="signup.html">Sign up</a></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+
+        document.querySelectorAll('.show-pass-toggle').forEach(item => {
+            item.addEventListener('click', event => {
+                const input = item.previousElementSibling;
+                if (input.type === "password") {
+                    input.type = "text";
+                    item.classList.remove('fa-eye');
+                    item.classList.add('fa-eye-slash');
+                } else {
+                    input.type = "password";
+                    item.classList.remove('fa-eye-slash');
+                    item.classList.add('fa-eye');
+                }
+            });
+        });
+
+
+        document.querySelector('.auth-form').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const emailOrUsername = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+
+            if (!emailOrUsername || !password) {
+                alert('Please fill in all fields.');
+                return;
+            }
+
+
+            const users = JSON.parse(localStorage.getItem('gpa_users')) || [];
+
+
+            const user = users.find(u =>
+                (u.email === emailOrUsername || u.username === emailOrUsername) &&
+                u.password === password
+            );
+
+            if (user) {
+
+                const sessionUser = { ...user };
+                delete sessionUser.password;
+
+                localStorage.setItem('currentUser', JSON.stringify(sessionUser));
+
+                // Redirect
+                window.location.href = 'index.html';
+            } else {
+                alert('Invalid Username/Email or Password');
+            }
+        });
+    </script>
+</body>
+
+</html>

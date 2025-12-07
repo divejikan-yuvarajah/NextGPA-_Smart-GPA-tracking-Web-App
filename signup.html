@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - NextGPA</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body class="auth-page">
+
+
+    <div class="auth-logo">
+        <img src="Logo.png" alt="NextGPA Logo" style="width: 100px; height: 100px;">
+        <span style="font-size: 30px; color: white;">NextGPA+</span>
+    </div>
+
+
+    <div class="auth-actions">
+        <button id="authDarkModeToggle" class="icon-btn"><i class="fas fa-moon"></i></button>
+    </div>
+
+    <div class="auth-container">
+        <div class="auth-card">
+            <div class="auth-header">
+                <img src="Logo.png" alt="Icon" class="auth-card-icon"
+                    style="width: 40px; height: 40px; margin-bottom: 15px; border-radius: 50%; display: none;">
+
+                <h2>Create Account</h2>
+                <p>Start your academic journey with us today.</p>
+            </div>
+
+            <form action="#" class="auth-form">
+                <div class="input-field">
+                    <label for="signup-name">Full Name</label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-user input-icon"></i>
+                        <input type="text" id="signup-name" placeholder="Elon Musk" required>
+                    </div>
+                </div>
+
+                <div class="input-field">
+                    <label for="signup-email">Email Address</label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-envelope input-icon"></i>
+                        <input type="email" id="signup-email" placeholder="student@gmail.com" required>
+                    </div>
+                </div>
+
+                <div class="input-field">
+                    <label for="signup-username">Username</label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-at input-icon"></i>
+                        <input type="text" id="signup-username" placeholder="student_one" required>
+                    </div>
+                </div>
+
+                <div class="input-field">
+                    <label for="signup-password">Password</label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-lock input-icon"></i>
+                        <input type="password" id="signup-password" placeholder="••••••••" required>
+                        <i class="fas fa-eye show-pass-toggle"></i>
+                    </div>
+                </div>
+
+                <div class="checkbox-field">
+                    <input type="checkbox" id="terms" required>
+                    <label for="terms">I agree to the <a href="#">Terms</a> and <a href="#">Privacy Policy</a>.</label>
+                </div>
+
+                <button type="submit" class="auth-btn success-btn">Sign Up</button>
+            </form>
+
+            <div class="auth-footer">
+                <p>Already have an account? <a href="login.html">Log In</a></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.querySelectorAll('.show-pass-toggle').forEach(item => {
+            item.addEventListener('click', event => {
+                const input = item.previousElementSibling;
+                if (input.type === "password") {
+                    input.type = "text";
+                    item.classList.remove('fa-eye');
+                    item.classList.add('fa-eye-slash');
+                } else {
+                    input.type = "password";
+                    item.classList.remove('fa-eye-slash');
+                    item.classList.add('fa-eye');
+                }
+            });
+        });
+
+        // Signup Logic
+        document.querySelector('.auth-form').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const fullName = document.getElementById('signup-name').value;
+            const email = document.getElementById('signup-email').value;
+            const username = document.getElementById('signup-username').value;
+            const password = document.getElementById('signup-password').value;
+
+            // Basic validation
+            if (!fullName || !email || !username || !password) {
+                alert('Please fill in all fields.');
+                return;
+            }
+
+            // Get existing users
+            const users = JSON.parse(localStorage.getItem('gpa_users')) || [];
+
+            // Check if user already exists
+            const userExists = users.some(u => u.username === username || u.email === email);
+
+            if (userExists) {
+                alert('Username or Email already exists!');
+                return;
+            }
+
+            // Create new user object
+            const newUser = {
+                fullName,
+                email,
+                username,
+                password // In a real app, this should be hashed!
+            };
+
+            // Save to localStorage
+            users.push(newUser);
+            localStorage.setItem('gpa_users', JSON.stringify(users));
+
+            alert('Registration successful! Redirecting to login...');
+            window.location.href = 'login.html';
+        });
+    </script>
+</body>
+
+</html>
