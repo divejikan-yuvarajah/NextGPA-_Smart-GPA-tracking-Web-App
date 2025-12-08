@@ -57,17 +57,6 @@ A modern and intuitive web application that helps university students **calculat
 
 ---
 
-## 🖼 Screenshots (Add After Uploading)
-
-Place images inside the `images/` folder and reference like this:
-
-```md
-![Dashboard Preview](images/dashboard.png)
-![Progress Chart](images/progress.png)
-```
-
----
-
 ## 🔐 Authentication Notice
 
 Login & Signup are **front-end UI only**.
@@ -81,21 +70,19 @@ You can later add a backend using:
 
 ---
 
-## 🌍 Live Demo
+## 🌍 Live 
 
-**Update this section after deployment:**
-
-🔗 [https://yourusername.github.io/NextGPAPlus/](https://yourusername.github.io/NextGPAPlus/)
+https://divejikan-yuvarajah.github.io/NextGPA-_Smart-GPA-tracking-Web-App/
 
 ---
 
 ## 👨‍💻 Developer
 
 **👤 Yuvarajah Divejikan**
-💼 Passionate Software Developer & Data Science Enthusiast
-🔗 GitHub: [https://github.com/divejikan-yuvarajah](https://github.com/divejikan-yuvarajah)
 
----
+💼 Passionate Software Developer & Data Science Enthusiast
+
+🔗 GitHub: https://github.com/divejikan-yuvarajah/
 
 ## ⭐ Support
 
@@ -106,12 +93,3 @@ If you like this project:
 * 📢 Share it with others
 
 ---
-
-If you want, I can also:
-
-✅ Design a project **logo**
-✅ Create a **banner image** for the README
-✅ Generate a **GIF preview** of your UI
-✅ Write GitHub **tags & description**
-
-Just tell me!
